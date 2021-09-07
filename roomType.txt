@@ -1,0 +1,4 @@
+1-standard-1100
+2-superior-1600
+3-deluxe-2200
+4-suite-3000
