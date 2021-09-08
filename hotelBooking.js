@@ -1,105 +1,172 @@
-var fs = require("fs");
+var fs = require('fs');
 
-var customers = new Map();
-var all_booking = new Map();
-var rooms = new Map();
-
-loadData = () => {
-  fs.readFile("customer.txt", function (err, filedata) {
-    if (err) throw err;
-
-    let customer_data = filedata.toString();
-    let customer_lines = customer_data.split("\n");
-
-    customer_lines.forEach((line) => {
-      let dat = line.split("-");
-      if (customers.has(dat[1])) {
-        let prevdata = customers.get(dat[1]);
-        prevdata.push({
-          customers_id: dat[0],
-          address: dat[2],
-          phone: dat[3],
-        });
-      } else {
-        customers.set(dat[1], [
-          {
-            customers_id: dat[0],
-            address: dat[2],
-            phone: dat[3],
-          },
-        ]);
-      }
-    });
-  });
+const {rooms, Room} = require("./room");
+const {customers, Customer} = require("./customer");
+const {booking, Booking} = require("./booking");
 
 
-  fs.readFile("booking.txt", function (err, filedata) {
-    if (err) throw err;
+//room.js
 
-    let booking_data = filedata.toString();
-    let booking_lines = booking_data.split("\n");
+//createRoom 
 
-    booking_lines.forEach((line) => {
-      let dat = line.split(" ");
-      if (all_booking.has(dat[1])) {
-        let prevdata = all_booking.get(dat[1]);
-        prevdata.push({
-          all_booking_id: dat[0],
-          room_id: dat[2],
-          time_in: dat[3],
-          time_out: date[4],
-          total_price: dat[5],
-        });
-      } else {
-        customers.set(dat[1], [
-          {
-            all_booking_id: dat[0],
-            room_id: dat[2],
-            time_in: dat[3],
-            time_out: date[4],
-            total_price: dat[5],
-          },
-        ]);
-      }
-    });
-  });
-  
+createRoom = (id, number, type, price , status) => {
+    let boolean = false;
+    rooms.forEach((room) => {
+        if(room.room_number == number) {
+            console.log("ไม่สร้าง");
+            boolean = true;
+        }
+    })
+    if (boolean == false) {
+        rooms.push(new Room(id,number,type,price,status))
+        return rooms;
+    } else if(boolean == true) {
+        console.log("ไม่สร้าง");
+    }
+}
 
-  fs.readFile("room.txt", function (err, filedata) {
-    if (err) throw err;
+createRoom(9,'017', 'suite', 3000 ,'occupied dirty');
+createRoom(15,'003', 'standard', 1100 ,'occupied dirty');
+// console.table(rooms);
 
-    let rooms_data = filedata.toString();
-    let rooms_lines = rooms_data.split("\n");
+//deleteRoom
 
-    rooms_lines.forEach((line) => {
-      let dat = line.split(" ");
-      if (rooms.has(dat[2])) {
-        let prevdata = rooms.get(dat[2]);
-        prevdata.push({
-          rooms_id: dat[0],
-          room_type_id: dat[1],
-          status: dat[3],
-        });
-      } else {
-        rooms.set(dat[1], [
-          {
-            rooms_id: dat[0],
-            room_type_id: dat[1],
-            status: dat[3],
-          },
-        ]);
-      }
-    });
-  });
+deleteRoom = (id) => {
+    let boolean = false;
+    let index;
+    rooms.forEach((room) => {
+        if(room.room_id == id) {
+            boolean = true;
+        }
+    })
+    index = rooms.findIndex(rooms => rooms.room_id == id)
+    if(boolean == true) {
+        rooms.splice(index , 1)
+        return rooms;
+    } else if(boolean == false) {
+        console.log("ไม่มีห้องนี้ค่าาา");
+    }
+}
+deleteRoom(5);
+// console.table(rooms);
+
+//customer.js
+
+createCustomer = (id, name, address, phone) => {
+    let boolean = false;
+    customers.forEach((customer) => {
+        if(customer.customer_id == id) {
+            console.log("ไม่สร้าง");
+            boolean = true;
+        }
+    })
+    if (boolean == false) {
+        customers.push(new Customer(id, name, address, phone))
+        return customers;
+    } else if(boolean == true) {
+        console.log("ไม่สร้าง");
+    }
+
+}
+
+createCustomer(8, "Gunny", "Los Angeles, United States", "0972365401");
+createCustomer(10, "Tat", "Riga, Latvia", "0826781239");
+// console.table(customers);
+
+//deleteCustomer
+
+deleteCustomer = (id) => {
+    let boolean = false;
+    let index;
+    customers.forEach((customer) => {
+        if(customer.customer_id == id) {
+            boolean = true;
+        }
+    })
+    index = customers.findIndex(customers => customers.customer_id == id)
+    if(boolean == true) {
+        customers.splice(index , 1)
+        return customers;
+    } else if(boolean == false) {
+        console.log("ไม่มีคนนี้ค่าาาา");
+    }
+}
+deleteCustomer(5);
+// console.table(customers);
 
 
-};
+//booking.js
+
+//createBooking
+
+createBooking = (id, customer_id, room_id, date_in, date_out) => {
+    let boolean = false;
+    booking.forEach((book) => {
+        if(book.booking_id == id || (book.room_id  == room_id || book.date_in == date_in && book.date_out == date_out)) {
+            console.log("จองหอง");
+            boolean = true;
+        }
+    })
+    if (boolean == false) {
+        booking.push(new Booking(id, customer_id, room_id, date_in, date_out))
+        return booking;
+    } else if(boolean == true) {
+        console.log("จองแล้ว");
+    }
+
+}
+
+createBooking(6, 7, 6, "2021-09-08", "2021-09-10");
+// console.table(booking);
+
+//deleteBooking
+
+deleteBooking = (id) => {
+    let boolean = false;
+    let index;
+    booking.forEach((book) => {
+        if(book.booking_id == id) {
+            boolean = true;
+        }
+    })
+    index = booking.findIndex(booking => booking.booking_id == id)
+    if(boolean == true) {
+        booking.splice(index , 1)
+        return booking;
+    } else if(boolean == false) {
+        console.log("ไม่มีคนนี้ค่าาาา");
+    }
+}
+
+deleteBooking(5);
+// console.table(booking);
+
+//checkBooking 
+
+checkBooking = (id) => {
+    let boolean = false;
+    booking.forEach((book) => {
+        if(book.booking_id == id) {
+            console.log("ไอดีนี้มีคนจองแล้วน้าจร้าาาหยั่มมานะแม่");
+            boolean = true;
+        }
+    })
+    if (boolean == false) {
+        console.log("ยังไม่มีคนจองเป็นเจ้าของ(หัวจวายย วร้ายยตัยล้าวววพส)");
+    } else if(boolean == true) {
+        console.log("ไอดีนี้มีคนจองแล้วน้าจร้าาาหยั่มมานะแม่");
+    }
+}
+
+checkBooking(8);
+console.table(booking);
 
 
 module.exports = {
-  loadData: loadData,
-  timeline: timeline,
-  feed: feed,
-  create_tweet: create_tweet,
-  follow: follow,
-};
+    createRoom: createRoom,
+    deleteRoom: deleteRoom,
+    createCustomer: createCustomer,
+    deleteCustomer: deleteCustomer,
+    createBooking: createBooking,
+    deleteBooking: deleteBooking
+}

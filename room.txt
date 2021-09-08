@@ -1,5 +1,0 @@
-1-1-001-occupied clean
-2-3-010-occupied dirty
-3-2-008-occupied clean
-4-4-015-occupied clean
-5-3-012-occupied dirty
