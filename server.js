@@ -38,8 +38,8 @@ http
         }
         break;
 
-        case "/createCustomer":
-        try { 
+      case "/createCustomer":
+        try {
           let create_customer = createCustomer(
             parseInt(request_path.query.customer_id),
             request_path.query.customer_name,
@@ -55,12 +55,13 @@ http
         }
         break;
 
-        case "/createBooking":
-        try { //booking_id,customer_id,room_id,date_in,date_out
+      case "/createBooking":
+        try {
+          //booking_id,customer_id,room_id,date_in,date_out
           let create_booking = createBooking(
             parseInt(request_path.query.booking_id),
-            request_path.query.customer_id,
-            request_path.query.room_id,
+            parseInt(request_path.query.customer_id),
+            parseInt(request_path.query.room_id),
             request_path.query.date_in,
             request_path.query.date_out
           );
@@ -73,11 +74,9 @@ http
         }
         break;
 
-        case "/deleteBooking":
+      case "/deleteBooking":
         try {
-          deleteBooking(
-            request_path.query.booking_id
-          );
+          deleteBooking(request_path.query.booking_id);
           message += `Delete booking id ${request_path.query.booking_id} !`;
         } catch (err) {
           status = 400;
@@ -86,12 +85,10 @@ http
         }
         break;
 
-        case "/checkBooking":
+      case "/checkBooking":
         try {
-          checkBooking(
-            request_path.query.booking_id
-          );
-          message += `Check booking id ${request_path.query.booking_id}!`
+          checkBooking(request_path.query.booking_id);
+          message += `Check booking id ${request_path.query.booking_id}!`;
         } catch (err) {
           status = 400;
           message += err;
