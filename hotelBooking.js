@@ -9,7 +9,7 @@ const { booking, Booking } = require("./booking");
 //createRoom
 
 const regex_id = /^\d{1,}$/;
-const regex_number = /^[0]\w{2}$/;
+const regex_number = /^[0]\d{2}$/;
 const regex_string = /^[a-zA-Z ]{5,}$/;
 const regex_price = /^\d{3,}$/;
 
