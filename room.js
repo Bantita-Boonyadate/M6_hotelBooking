@@ -42,23 +42,6 @@ rooms.push(new Room(5, "012","suite", 3000, "occupied dirty"));
 // console.table(rooms);
 
 
-// deleteRoom = (id,number, type, price , status) => {
-//     let boolean = false;
-//     rooms.forEach((room) => {
-//         if(room.room_number == number) {
-//             rooms.delete(new Room(id,number,type,price,status))
-//             boolean = true;
-//         }
-//     })
-//     if (boolean == false) {
-        
-//     } 
-
-// }
-
-// console.table(rooms);
-
-
 module.exports = {
     rooms: rooms,
     Room: Room
